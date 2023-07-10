@@ -8,11 +8,11 @@ public class Main {
         for(int i = 0; i < args.length; i++)
             array[i] = Integer.parseInt(args[i]);
 
-        var result = findClosestToTen(array);
+        var result = findCertainResult(array);
         System.out.println(result);
     }
 
-    public static int findClosestToTen(Integer[] numbers) {
+    public static int findCertainResult(Integer[] numbers) {
         int needNumber = numbers[0];
         for (int i = 1; i < numbers.length; i++) {
             int currentNumber = numbers[i];
