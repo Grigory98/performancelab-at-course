@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import java.util.List;
 
 public class LoginPage extends AbstractPage {
 
@@ -20,6 +21,12 @@ public class LoginPage extends AbstractPage {
   @FindBy(css = "button[type=submit]")
   private WebElement submitBtn;
 
+  @FindBy(css = "[id=basic-nav-dropdown]")
+  private List<WebElement> navBar;
+
+  @FindBy(css = "[class*=\"dropdown-menu\"]")
+  private WebElement contextMenu;
+
   //endregion
 
   //region Конструктор
@@ -32,16 +39,15 @@ public class LoginPage extends AbstractPage {
 
   //region Методы
 
-  public void OpenOptionFromRibbon(String columnName, String optionContextName)
+  public void openOptionFromRibbon(String columnName, String optionContextName)
   {
-    var options = driver.findElements(By.id("basic-nav-dropdown"));
-    var option = options.stream().filter((opt) -> opt.getText().equals(columnName)).findFirst().orElse(null);
+    var option = navBar.stream().filter(opt -> opt.getText().equals(columnName)).findFirst().orElse(null);
     option.click();
-    var contextMenu = driver.findElement(By.cssSelector(".dropdown-menu")).findElements(By.tagName("a"));
     if(contextMenu.equals(null)) throw new RuntimeException("Контекстное меню не открылось.");
 
-    var contextMenuOption = contextMenu.stream().filter((opt) -> opt.getText().equals(optionContextName)).findFirst().orElse(null);
-    contextMenuOption.click();
+    var ctxMenuOptions = contextMenu.findElements(By.tagName("a"));
+    var ctxMenuOption = ctxMenuOptions.stream().filter(opt -> opt.getText().equals(optionContextName)).findFirst().orElse(null);
+    ctxMenuOption.click();
   }
 
   private Alert findAlert() {

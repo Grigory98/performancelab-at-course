@@ -38,7 +38,7 @@ public class SortedTests
         driver.quit();
     }
 
-    private LoginPage LogIn()
+    private LoginPage logIn()
     {
         driver.get(config.baseUrl);
         LoginPage loginPage = new LoginPage(driver, wait);
@@ -52,13 +52,13 @@ public class SortedTests
     @Test
     public void SortedTest()
     {
-        var loginPage = this.LogIn();
-        loginPage.OpenOptionFromRibbon("Users", "Read all");
+        var loginPage = this.logIn();
+        loginPage.openOptionFromRibbon("Users", "Read all");
         var userPage = new UserPage(driver, wait);
-        userPage.SetSortingByID(true);
-        Assertions.assertTrue(userPage.CheckSortedGrid(), "Sorting should be by ascending.");
-        userPage.CancelSorting("ID");
-        userPage.SetSortingByID(false);
-        Assertions.assertFalse(userPage.CheckSortedGrid(), "Sorting should be by descending");
+        userPage.setSortingByID(true);
+        Assertions.assertTrue(userPage.checkSortedGrid(true), "Sorting should be by ascending.");
+        userPage.cancelSorting("ID");
+        userPage.setSortingByID(false);
+        Assertions.assertTrue(userPage.checkSortedGrid(false), "Sorting should be by descending");
     }
 }

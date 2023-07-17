@@ -6,7 +6,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,8 +23,6 @@ public class UserPage extends AbstractPage
   private List<WebElement> userRows;
 
   private  static final int ID_COL = 0;
-  private static final int FIRST_NAME_COL = 1;
-  private static final int LAST_NAME_COL = 2;
 
   //endregion
 
@@ -39,14 +36,11 @@ public class UserPage extends AbstractPage
 
   //region Методы
 
-  public void SetSortingByID(boolean isAsc)
+  public void setSortingByID(boolean isAsc)
   {
     var idColumn = getSortButton("ID");
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    }
+    try { Thread.sleep(5000); }
+    catch(InterruptedException ie) {}
     if(isAsc)
       idColumn.click();
     else
@@ -56,7 +50,7 @@ public class UserPage extends AbstractPage
     }
   }
 
-  public boolean CheckSortedGrid()
+  public boolean checkSortedGrid(boolean isAsc)
   {
     boolean check;
     var numbers = this.getListUsersId();
@@ -65,13 +59,16 @@ public class UserPage extends AbstractPage
 
     var userFirst = getUserIdByRowNum(0);
     var userLast = getUserIdByRowNum(userRows.size() - 1);
-    check = userFirst < userLast;
-    check = check && userFirst == minId;
-    check = check && userLast == maxId;
+
+    if(isAsc)
+      check = userFirst < userLast && userFirst == minId && userLast == maxId;
+    else
+      check = userFirst > userLast && userFirst != minId && userLast != maxId;
+
     return check;
   }
 
-  public void CancelSorting(String buttonName)
+  public void cancelSorting(String buttonName)
   {
     while(true)
     {
@@ -91,7 +88,8 @@ public class UserPage extends AbstractPage
     return button;
   }
 
-  private List<WebElement> getUserRowCells(int num) {
+  private List<WebElement> getUserRowCells(int num)
+  {
     WebElement tableRow = userRows.get(num);
     return tableRow.findElements(By.cssSelector("td"));
   }
