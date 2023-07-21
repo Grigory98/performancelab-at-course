@@ -19,15 +19,6 @@ public class LoginPage //extends AbstractPage
 
     public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-    //@FindBy(css = "input[name=email]")
-    //private WebElement loginInput;
-
-    //@FindBy(css = "input[name=password]")
-    //private WebElement passwordInput;
-
-    //@FindBy(css = "button[type=submit]")
-    //private WebElement submitBtn;
-
     @FindBy(css = "[id=basic-nav-dropdown]")
     private List<WebElement> navBar;
 
