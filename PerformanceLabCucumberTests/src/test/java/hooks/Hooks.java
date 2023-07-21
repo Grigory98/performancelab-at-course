@@ -1,22 +1,25 @@
-package cucumber;
+package hooks;
 
+import Core.DriversManager;
 import config.ApplicationConfig;
-import io.cucumber.java.BeforeAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import io.cucumber.java.After;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import steps.Steps;
 
-import java.time.Duration;
+import java.util.HashMap;
 
-public class Hooks {
-    private RemoteWebDriver driver;
+public class Hooks extends Steps {
+
+    public Hooks(HashMap<String, Object> scContext) {
+        super(scContext);
+    }
+
+    private WebDriver driver = DriversManager.getCurrent();
     private ApplicationConfig config;
     private WebDriverWait wait;
 
-    @BeforeAll
+    /*@BeforeAll
     public void configInit() {
         config = new ApplicationConfig();
     }
@@ -27,11 +30,12 @@ public class Hooks {
         chromeOptions.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(chromeOptions);
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-    }
+    }*/
 
-    @AfterEach
-    public void tearDown() {
+    @After
+    public void afterScenario()
+    {
+        System.out.println("TEST");
         driver.quit();
     }
-
 }
