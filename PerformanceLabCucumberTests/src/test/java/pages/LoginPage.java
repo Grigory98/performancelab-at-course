@@ -2,17 +2,38 @@ package pages;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import java.util.List;
 
 public class LoginPage extends AbstractPage
 {
+
+    //region Поля и свойства
+
+    @FindBy(id = "basic-nav-dropdown")
+    private List<WebElement> navBar;
+
+    @FindBy(css = "[class*=\"dropdown-menu\"]")
+    private WebElement contextMenu;
+
+    @FindBy(css = "input[name=email]")
+    private WebElement loginInput;
+
+    @FindBy(css = "input[name=password]")
+    private WebElement passwordInput;
+
+    @FindBy(css = "button[type=submit]")
+    private WebElement submitBtn;
+
+    //endregion
+
     //region Методы
 
     public void openOptionFromRibbon(String columnName, String optionContextName)
     {
-        var navBar = driver.findElements(By.id("basic-nav-dropdown"));
         var option = navBar.stream().filter(opt -> opt.getText().equals(columnName)).findFirst().orElse(null);
         option.click();
-        var contextMenu = driver.findElement(By.cssSelector("[class*=\"dropdown-menu\"]"));
         if(contextMenu.equals(null)) throw new RuntimeException("Контекстное меню не открылось.");
 
         var ctxMenuOptions = contextMenu.findElements(By.tagName("a"));
@@ -27,21 +48,18 @@ public class LoginPage extends AbstractPage
 
     public void fillLoginInput(String text)
     {
-        var loginInput = driver.findElement(By.cssSelector("input[name=email]"));
         loginInput.clear();
         loginInput.sendKeys(text);
     }
 
     public void fillPasswordInput(String text)
     {
-        var passwordInput = driver.findElement(By.cssSelector("input[name=password]"));
         passwordInput.clear();
         passwordInput.sendKeys(text);
     }
 
     public void submitForm()
     {
-        var submitBtn = driver.findElement(By.cssSelector("button[type=submit]"));
         submitBtn.click();
     }
 

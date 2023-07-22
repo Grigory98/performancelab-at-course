@@ -11,10 +11,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class UserPage extends AbstractPage
 {
     //region Поля и свойства
+
+    @FindBy(css = "table tbody tr")
+    private List<WebElement> userRows;
 
     private  static final int ID_COL = 0;
 
@@ -39,7 +43,6 @@ public class UserPage extends AbstractPage
     public boolean checkSortedGrid(boolean isAsc)
     {
         boolean check;
-        var userRows = driver.findElements(By.cssSelector("table tbody tr"));
         var numbers = this.getListUsersId();
         var minId =  Arrays.stream(numbers).min().getAsLong();
         var maxId = Arrays.stream(numbers).max().getAsLong();
@@ -77,7 +80,6 @@ public class UserPage extends AbstractPage
 
     private List<WebElement> getUserRowCells(int num)
     {
-        var userRows = driver.findElements(By.cssSelector("table tbody tr"));
         WebElement tableRow = userRows.get(num);
         return tableRow.findElements(By.cssSelector("td"));
     }
@@ -85,7 +87,6 @@ public class UserPage extends AbstractPage
     //Это лучше положить в отдельный класс, содержащий API методы, но для простоты оставил тут.
     public long[] getListUsersId()
     {
-        var userRows = driver.findElements(By.cssSelector("table tbody tr"));
         long[] usersIds = new long[userRows.size()];
         String query = "http://77.50.236.203:4879/users"; //запрос на получение users
         HttpURLConnection connection = null;
