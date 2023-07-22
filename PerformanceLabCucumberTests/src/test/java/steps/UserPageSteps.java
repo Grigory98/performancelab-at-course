@@ -11,7 +11,7 @@ public class UserPageSteps extends Steps
     @And("^UserPage. Отсортировать пользователей по ID в порядке (.+)")
     public void setSorting(String orderType)
     {
-        var userPage = (UserPage) scContext.get(LoginPageSteps.Context.Page);
+        var userPage = (UserPage) scContext.get(PageSteps.Context.Page);
         if(orderType == "возрастания") userPage.setSortingByID(true);
         else userPage.setSortingByID(false);
     }
@@ -19,14 +19,14 @@ public class UserPageSteps extends Steps
     @And("UserPage. Сбросить сортировку")
     public  void resetSorting()
     {
-        var userPage = (UserPage) scContext.get(LoginPageSteps.Context.Page);
+        var userPage = (UserPage) scContext.get(PageSteps.Context.Page);
         userPage.cancelSorting("ID");
     }
 
     @Then("^UserPage. Проверить, что пользователи отсортированы в порядке (.+)")
     public void checkSorting(String orderType)
     {
-        var userPage = (UserPage) scContext.get(LoginPageSteps.Context.Page);
+        var userPage = (UserPage) scContext.get(PageSteps.Context.Page);
         if(orderType == "возрастания")
             Assertions.assertTrue(userPage.checkSortedGrid(true), "Sorting should be by ascending.");
         else
