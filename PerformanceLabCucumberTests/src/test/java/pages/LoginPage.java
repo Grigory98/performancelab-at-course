@@ -1,38 +1,18 @@
 package pages;
-import Core.DriversManager;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-import java.util.List;
-
-public class LoginPage //extends AbstractPage
+public class LoginPage extends AbstractPage
 {
-
-    //region Поля и свойства
-
-    public WebDriver driver = DriversManager.getCurrent();
-
-    public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-    @FindBy(css = "[id=basic-nav-dropdown]")
-    private List<WebElement> navBar;
-
-    @FindBy(css = "[class*=\"dropdown-menu\"]")
-    private WebElement contextMenu;
-
-    //endregion
-
     //region Методы
 
     public void openOptionFromRibbon(String columnName, String optionContextName)
     {
+        var navBar = driver.findElements(By.id("basic-nav-dropdown"));
         var option = navBar.stream().filter(opt -> opt.getText().equals(columnName)).findFirst().orElse(null);
         option.click();
+        var contextMenu = driver.findElement(By.cssSelector("[class*=\"dropdown-menu\"]"));
         if(contextMenu.equals(null)) throw new RuntimeException("Контекстное меню не открылось.");
 
         var ctxMenuOptions = contextMenu.findElements(By.tagName("a"));

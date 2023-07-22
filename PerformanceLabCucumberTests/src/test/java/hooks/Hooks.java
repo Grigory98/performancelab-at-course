@@ -4,20 +4,22 @@ import Core.DriversManager;
 import config.ApplicationConfig;
 import io.cucumber.java.After;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import steps.Steps;
 
 import java.util.HashMap;
 
 public class Hooks extends Steps {
 
+    //region Конструктор
     public Hooks(HashMap<String, Object> scContext) {
         super(scContext);
     }
+    //endregion
 
     private WebDriver driver = DriversManager.getCurrent();
+
     private ApplicationConfig config;
-    private WebDriverWait wait;
+
 
     /*@BeforeAll
     public void configInit() {
@@ -35,7 +37,6 @@ public class Hooks extends Steps {
     @After
     public void afterScenario()
     {
-        System.out.println("TEST");
         driver.quit();
     }
 }
