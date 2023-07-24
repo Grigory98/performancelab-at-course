@@ -1,1 +1,0 @@
-{"uuid":"81746f13-50e9-4349-97f9-3ae8361abcad","name":"Scenario: Авторизация пользователя в системе","children":["24d3f23b-5a4b-4242-ab45-ee526225aa27"],"befores":[],"afters":[{"name":"Hooks.tearEach()","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1690215179197,"stop":1690215179315}],"start":1690215176427,"stop":1690215179316}

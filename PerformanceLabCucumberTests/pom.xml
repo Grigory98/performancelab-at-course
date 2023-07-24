@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <aspectj.version>1.9.19</aspectj.version>
         <allure.version>2.23.0</allure.version>
-        <allure.results.directory>surefire-reports</allure.results.directory>
+        <allure.results.directory>allure-results</allure.results.directory>
     </properties>
 
     <dependencies>
