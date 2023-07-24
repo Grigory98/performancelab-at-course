@@ -9,7 +9,7 @@ import java.time.Duration;
 
 public class DriversManager {
 
-    private static ChromeDriver _current;
+    private static WebDriver _current;
 
     private static WebDriverWait _wait;
 
@@ -29,6 +29,7 @@ public class DriversManager {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--remote-allow-origins=*");
             _current = new ChromeDriver(chromeOptions);
+            _current.manage().window().maximize();
         }
         return _current;
     }
