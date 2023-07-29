@@ -13,9 +13,13 @@ public class Hooks {
     public void tearDown(Scenario scenario) throws InterruptedException, IOException, IllegalMonitorStateException
     {
         if(scenario.isFailed()) {
-            TakesScreenshot ts = (TakesScreenshot) DriversManager.getCurrent();
-            byte[] src = ts.getScreenshotAs(OutputType.BYTES);
-            scenario.attach(src, "image/png", "screenshot");
+            try {
+                TakesScreenshot ts = (TakesScreenshot) DriversManager.getCurrent();
+                byte[] src = ts.getScreenshotAs(OutputType.BYTES);
+                scenario.attach(src, "image/png", "screenshot");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         DriversManager.closeBrowser();
