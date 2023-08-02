@@ -5,6 +5,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Assertions;
 import pages.LoginPage;
 import pages.UserPage;
@@ -19,6 +20,10 @@ public class LoginPageSteps extends Steps
         DriversManager.getCurrent().get(config.baseUrl);
         LoginPage loginPage = new LoginPage();
         scContext.put(PageSteps.Context.Page, loginPage);
+
+        //Скорость загрузки страницы
+        var loadTime = DriversManager.getLoadPageTime();
+        Allure.parameter("Page load speed", loadTime + "ms");
     }
 
     @Given("^LoginPage. Ввести логин пользователя (.+)")

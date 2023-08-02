@@ -5,12 +5,11 @@ import io.cucumber.java.After;
 import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import java.io.IOException;
 
 public class Hooks {
 
     @After(order = 0)
-    public void tearDown(Scenario scenario) throws InterruptedException, IOException, IllegalMonitorStateException
+    public void tearDown(Scenario scenario)
     {
         if(scenario.isFailed()) {
             try {

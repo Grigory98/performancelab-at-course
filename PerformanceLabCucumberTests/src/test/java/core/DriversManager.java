@@ -1,6 +1,7 @@
 package core;
 
 import config.ApplicationConfig;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,6 +15,17 @@ public class DriversManager {
     private static WebDriverWait _wait;
 
     private static ApplicationConfig _config;
+
+    private static final String LOAD_PAGE_SCRIPT =
+        "var loadTime = window.performance.timing.domContentLoadedEventEnd- window.performance.timing.navigationStart; " +
+        "console.log(loadTime); " +
+        "return loadTime";
+
+    public static String getLoadPageTime()
+    {
+        JavascriptExecutor js = (JavascriptExecutor)DriversManager.getCurrent();
+        return js.executeScript(LOAD_PAGE_SCRIPT).toString();
+    }
 
     public static ApplicationConfig config()
     {
