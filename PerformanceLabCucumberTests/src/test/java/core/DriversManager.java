@@ -40,6 +40,8 @@ public class DriversManager {
         if (_current == null) {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--remote-allow-origins=*");
+            if(_config.headlessMode == true)
+                chromeOptions.addArguments("--headless");
             _current = new ChromeDriver(chromeOptions);
             _current.manage().window().maximize();
         }

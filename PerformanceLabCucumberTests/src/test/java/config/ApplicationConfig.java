@@ -6,7 +6,7 @@ public class ApplicationConfig {
     public final int apiPort;
     public final String username;
     public final String password;
-
+    public final boolean headlessMode;
 
     public ApplicationConfig()
     {
@@ -15,5 +15,6 @@ public class ApplicationConfig {
         this.apiPort = 4879;
         this.username = "user@pflb.ru";
         this.password = "user";
+        this.headlessMode = false;
     }
 }
