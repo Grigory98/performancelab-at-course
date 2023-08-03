@@ -16,8 +16,6 @@ public class Authorization {
         public AuthRequest() {}
     }
 
-
-
     public static class AuthResponse {
         @JsonProperty("access_token")
         public String accessToken;

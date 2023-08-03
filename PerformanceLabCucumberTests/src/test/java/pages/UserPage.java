@@ -1,17 +1,9 @@
 package pages;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-
 import api.Api;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -46,9 +38,8 @@ public class UserPage extends AbstractPage
     public boolean checkSortedGrid(boolean isAsc)
     {
         boolean check;
-        var api = new Api();
-        api.getToken();
-        var users = api.getUsers();
+        Api.getToken();
+        var users = Api.getUsers();
         var minId = Arrays.stream(users).min(Comparator.comparingInt(x -> x.id)).map(x -> x.id).orElseThrow();
         var maxId = Arrays.stream(users).max(Comparator.comparingInt(x -> x.id)).map(x -> x.id).orElseThrow();
 

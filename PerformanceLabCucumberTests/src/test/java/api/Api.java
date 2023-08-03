@@ -11,7 +11,7 @@ import java.util.Comparator;
 
 public class Api {
 
-    public String getToken() {
+    public static String getToken() {
         RestAssured.baseURI = DriversManager.config().apiUrl;
         RestAssured.port = DriversManager.config().apiPort;
         RestAssured.defaultParser = Parser.JSON;
@@ -24,13 +24,13 @@ public class Api {
         return "Bearer " + authResponse.accessToken;
     }
 
-    public Users[] getUsers()
+    public static Users[] getUsers()
     {
         var response = given().when().get( "/users");
         return response.as(Users[].class);
     }
 
-    public boolean checkUsersSortAsc()
+    public static boolean checkUsersSortAsc()
     {
         var users = getUsers();
         var userMinId = Arrays.stream(users).min(Comparator.comparingInt(x -> x.id)).map(x -> x.id).orElseThrow();
@@ -41,7 +41,7 @@ public class Api {
         return ascUsers[0].id == userMinId && ascUsers[ascUsers.length - 1].id == userMaxId;
     }
 
-    public boolean checkUsersSortDesc()
+    public static boolean checkUsersSortDesc()
     {
         var users = getUsers();
         var userMinId = Arrays.stream(users).min(Comparator.comparingInt(x -> x.id)).map(x -> x.id).orElseThrow();
