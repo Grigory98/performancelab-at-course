@@ -5,7 +5,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+
+import api.Api;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -43,9 +46,11 @@ public class UserPage extends AbstractPage
     public boolean checkSortedGrid(boolean isAsc)
     {
         boolean check;
-        var numbers = this.getListUsersId();
-        var minId =  Arrays.stream(numbers).min().getAsLong();
-        var maxId = Arrays.stream(numbers).max().getAsLong();
+        var api = new Api();
+        api.getToken();
+        var users = api.getUsers();
+        var minId = Arrays.stream(users).min(Comparator.comparingInt(x -> x.id)).map(x -> x.id).orElseThrow();
+        var maxId = Arrays.stream(users).max(Comparator.comparingInt(x -> x.id)).map(x -> x.id).orElseThrow();
 
         var userFirst = getUserIdByRowNum(0);
         var userLast = getUserIdByRowNum(userRows.size() - 1);
@@ -82,50 +87,6 @@ public class UserPage extends AbstractPage
     {
         WebElement tableRow = userRows.get(num);
         return tableRow.findElements(By.cssSelector("td"));
-    }
-
-    //Это лучше положить в отдельный класс, содержащий API методы, но для простоты оставил тут.
-    public long[] getListUsersId()
-    {
-        long[] usersIds = new long[userRows.size()];
-        String query = "http://77.50.236.203:4879/users"; //запрос на получение users
-        HttpURLConnection connection = null;
-        try {
-            connection = (HttpURLConnection) new URL(query).openConnection();
-            connection.setRequestMethod("GET");
-            connection.setUseCaches(false);
-            connection.setConnectTimeout(250);
-            connection.setReadTimeout(250);
-            connection.connect();
-
-            StringBuilder sb = new StringBuilder();
-            if(HttpURLConnection.HTTP_OK == connection.getResponseCode()) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "cp1251"));
-                String line;
-                while((line = in.readLine()) != null)
-                    sb.append(line);
-
-                Object obj = new JSONParser().parse(sb.toString());
-                JSONArray jsonArray = (JSONArray) obj;
-
-                for(int i = 0; i < jsonArray.size(); i++)
-                {
-                    var jsonObj = (JSONObject) jsonArray.get(i);
-                    usersIds[i]= (long) jsonObj.get("id");
-                }
-
-            } else {
-                System.out.println("fail: " + connection.getResponseCode() + ", " + connection.getResponseMessage());
-            }
-        } catch(Throwable cause) {
-            cause.printStackTrace();
-        } finally {
-            if(connection != null) {
-                connection.disconnect();
-            }
-        }
-
-        return usersIds;
     }
 
     public int getUserIdByRowNum(int num)
