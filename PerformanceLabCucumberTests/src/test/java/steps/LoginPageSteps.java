@@ -54,6 +54,9 @@ public class LoginPageSteps extends Steps
         loginPage.fillLoginInput(login);
         loginPage.fillPasswordInput(password);
         loginPage.submitForm();
+        String alertText = loginPage.getAlertText();
+        if(!alertText.contains("Successful"))
+            throw new RuntimeException("Unsecessful authorization");
         loginPage.dismissAlert();
     }
 
