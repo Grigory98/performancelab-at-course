@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import api.Api;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -24,8 +25,7 @@ public class UserPage extends AbstractPage
     public void setSortingByID(boolean isAsc)
     {
         var idColumn = getSortButton("ID");
-        try { Thread.sleep(5000); }
-        catch(InterruptedException ie) {}
+        wait.until(driver -> (JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
         if(isAsc)
             idColumn.click();
         else
@@ -47,9 +47,9 @@ public class UserPage extends AbstractPage
         var userLast = getUserIdByRowNum(userRows.size() - 1);
 
         if(isAsc)
-            check = userFirst < userLast && userFirst == minId && userLast == maxId;
+            check = userFirst == minId && userLast == maxId;
         else
-            check = userFirst > userLast && userFirst != minId && userLast != maxId;
+            check = userFirst == maxId && userLast == minId;
 
         return check;
     }
