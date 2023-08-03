@@ -21,9 +21,14 @@ public class DriversManager {
         "console.log(loadTime); " +
         "return loadTime";
 
+    public static boolean isDriverExist()
+    {
+        return _current != null;
+    }
+
     public static String getLoadPageTime()
     {
-        JavascriptExecutor js = (JavascriptExecutor)DriversManager.getCurrent();
+        JavascriptExecutor js = (JavascriptExecutor)DriversManager.current();
         return js.executeScript(LOAD_PAGE_SCRIPT).toString();
     }
 
@@ -35,9 +40,9 @@ public class DriversManager {
         return _config;
     }
 
-    public static WebDriver getCurrent()
+    public static WebDriver current()
     {
-        if (_current == null) {
+        if (!DriversManager.isDriverExist()) {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--remote-allow-origins=*");
             if(_config.headlessMode == true)
@@ -58,7 +63,7 @@ public class DriversManager {
     public static WebDriverWait waitFor()
     {
         if(_wait == null) {
-            _wait = new WebDriverWait(DriversManager.getCurrent(), Duration.ofSeconds(20));
+            _wait = new WebDriverWait(DriversManager.current(), Duration.ofSeconds(20));
         }
         return _wait;
     }

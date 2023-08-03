@@ -17,7 +17,7 @@ public class LoginPageSteps extends Steps
     public void openBrowser()
     {
         var config = DriversManager.config();
-        DriversManager.getCurrent().get(config.baseUrl);
+        DriversManager.current().get(config.baseUrl);
         LoginPage loginPage = new LoginPage();
         scContext.put(PageSteps.Context.Page, loginPage);
 
